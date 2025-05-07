@@ -38,7 +38,7 @@ def eat():
 
 def snake(direction):
     # checks snake is within the box
-    if (snake_spots[-1][0] <= 13 and snake_spots[-1][0] >= 0) and (snake_spots[-1][1] <= 30 and snake_spots[-1][1] >= 0):
+    if (snake_spots[-1][0] < 13 and snake_spots[-1][0] > 0) and (snake_spots[-1][1] < 30 and snake_spots[-1][1] > 0):
 
         # moves the snake to the last key presses direction
         if direction == "left":
@@ -53,15 +53,24 @@ def snake(direction):
         if direction == "down":
             snake_spots.append([snake_spots[-1][0]+1,snake_spots[-1][1]])
         
-        # changes the last snake spot back to green
-        screen[snake_spots[0][0]][snake_spots[0][1]] = "\33[42m \33[0m"
-        snake_spots.pop(0)
-        # put the snakes new spot on the screenw
-        for pixel in snake_spots:
-            screen[pixel[0]][pixel[1]] = "\33[43m \33[0m"
+        try:
+            # changes the last snake spot back to green
+            screen[snake_spots[0][0]][snake_spots[0][1]] = "\33[42m \33[0m"
+            snake_spots.pop(0)
+        except:
+            pass
+        
+        try:
+            # put the snakes new spot on the screenw
+            for pixel in snake_spots:
+                screen[pixel[0]][pixel[1]] = "\33[43m \33[0m"
+        except:
+            pass
+        
         
         clear_console()
         new_screen()
+        
     
     else:
         clear_console()
