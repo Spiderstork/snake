@@ -11,9 +11,19 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def new_item():
-    spot = [random.randint(0,12), random.randint(0,29)]
-    apples.append(spot)
-    screen[spot[0]][spot[1]] = "\33[41m \33[0m"
+    accept = False
+    while accept == False:
+        spot = [random.randint(0,12), random.randint(0,29)]
+
+        # makes sure the apple doesnt spawn on snake
+        if spot in snake_spots:
+            accept = False
+
+        else:
+            apples.append(spot)
+            screen[spot[0]][spot[1]] = "\33[41m \33[0m"
+            accept = True
+
     return screen
 
 def eat():
@@ -47,8 +57,8 @@ def snake(direction):
         screen[snake_spots[0][0]][snake_spots[0][1]] = "\33[42m \33[0m"
         snake_spots.pop(0)
         # put the snakes new spot on the screenw
-        for n in snake_spots:
-            screen[n[0]][n[1]] = "\33[43m \33[0m"
+        for pixel in snake_spots:
+            screen[pixel[0]][pixel[1]] = "\33[43m \33[0m"
         
         clear_console()
         new_screen()
@@ -80,9 +90,9 @@ def controls(direction):
     
 
 def new_screen():
-    for n in screen:
-        for c in n:
-            print(c,end="")
+    for pixel in screen:
+        for cords in pixel:
+            print(cords, end="")
         print()
 
 # sets up first apple
